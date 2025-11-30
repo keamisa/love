@@ -1,0 +1,188 @@
+:root {
+    --primary-pink: #ff9eb5;
+    --card-bg: #ff6b8b; /* Màu hồng đậm cho khung card */
+    --bg-color: #fff0f3;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-color);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- LOADING --- */
+#loading-screen {
+    position: fixed;
+    z-index: 100;
+    background: var(--bg-color);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+}
+.heart-loader i { color: var(--card-bg); font-size: 3rem; animation: heartbeat 1s infinite; }
+.progress-bar { width: 300px; height: 20px; border: 2px solid var(--card-bg); border-radius: 10px; margin-top: 20px; padding: 3px; background: white; }
+.progress { height: 100%; background: var(--card-bg); width: 0%; border-radius: 8px; transition: width 0.1s; }
+
+/* --- MAIN CONTENT --- */
+.hidden { display: none !important; }
+#main-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- CARD STYLE (Sửa giống video) --- */
+.card-container {
+    background: var(--card-bg); /* Nền hồng đậm */
+    color: white;               /* Chữ trắng */
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(255, 107, 139, 0.4);
+    text-align: center;
+    z-index: 10;
+    width: 350px;
+    border: 4px solid white;    /* Viền trắng bao quanh card */
+    position: relative;
+    margin-bottom: 50px; 
+}
+
+.title {
+    font-family: 'Pacifico', cursive;
+    color: white;
+    font-size: 2.5rem;
+    margin: 0 0 15px 0;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.slideshow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.image-wrapper {
+    width: 250px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 15px;
+    border: 3px solid white; /* Viền ảnh trắng */
+    background: white;
+}
+
+.slide { width: 100%; height: 100%; object-fit: cover; display: none; }
+.slide.active { display: block; animation: fadeIn 0.5s; }
+
+.nav-btn {
+    background: none; border: none;
+    color: white; /* Mũi tên trắng */
+    font-size: 2rem; cursor: pointer; font-weight: bold;
+}
+
+.input-area {
+    display: flex; gap: 10px;
+    background: white; /* Nền trắng cho ô nhập */
+    padding: 5px; border-radius: 25px;
+}
+
+.input-area input {
+    flex: 1; padding: 8px; border: none; outline: none;
+    color: var(--card-bg); font-weight: bold; text-align: center;
+    font-family: 'Nunito', sans-serif; background: transparent;
+}
+
+.send-btn {
+    background: var(--card-bg); color: white;
+    border: none; width: 35px; height: 35px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
+/* --- ANIMATION AREA (XE & ĐƯỜNG) --- */
+.animation-area {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 250px;
+    z-index: 1; pointer-events: none;
+}
+
+/* Con đường nét đứt màu đen tím */
+.road-line {
+    position: absolute;
+    bottom: 60px; left: 0;
+    width: 100%; height: 5px;
+    background-image: linear-gradient(to right, #4a2c4a 60%, transparent 40%);
+    background-position: bottom; background-size: 50px 100%; background-repeat: repeat-x;
+}
+
+.bus-container {
+    position: absolute;
+    bottom: 63px; /* Đặt xe đè lên đường */
+    left: -300px;
+    width: 230px;
+    z-index: 2;
+    animation: driveAcross 15s linear infinite;
+}
+
+.bus-img {
+    width: 100%; height: auto;
+    /* Đã bỏ mix-blend-mode vì dùng ảnh trong suốt sẽ đẹp hơn */
+    animation: bounceBus 0.6s ease-in-out infinite alternate;
+}
+
+/* --- KEYFRAMES & MODAL --- */
+@keyframes driveAcross { 0% { left: -250px; } 100% { left: 100vw; } }
+@keyframes bounceBus { 0% { transform: translateY(0); } 100% { transform: translateY(-3px); } }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+@keyframes fadeIn { from { opacity: 0.5; } to { opacity: 1; } }
+
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 200;
+}
+.modal-content {
+    background: #fff; padding: 30px; border-radius: 15px; width: 300px;
+    position: relative; text-align: center; border: 4px solid var(--card-bg); animation: popUp 0.5s;
+}
+.close { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; color: #aaa; }
+.heart-seal { font-size: 3rem; color: red; margin-bottom: 10px; }
+.message { font-style: italic; color: #555; line-height: 1.6; }
+@keyframes popUp { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+/* --- SỬA LẠI ĐOẠN CON ĐƯỜNG NÀY --- */
+.road-line {
+    position: absolute;
+    bottom: 60px; 
+    left: 0;
+    width: 100%; 
+    height: 5px;
+    /* Màu tím than nét đứt */
+    background-image: linear-gradient(to right, #4a2c4a 60%, transparent 40%);
+    background-position: bottom; 
+    
+    /* QUAN TRỌNG: Kích thước 1 nhịp là 50px */
+    background-size: 50px 100%; 
+    background-repeat: repeat-x;
+    
+    /* Dòng này tạo hiệu ứng đường chạy liên tục */
+    animation: moveRoad 0.4s linear infinite; 
+}
+
+/* --- THÊM KEYFRAME NÀY XUỐNG CUỐI FILE --- */
+@keyframes moveRoad {
+    0% { background-position-x: 0; }
+    100% { background-position-x: -50px; } /* Phải khớp với số 50px ở background-size phía trên */
+}

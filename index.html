@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gửi Anh Yêu - 19/11</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="loading-screen">
+        <div class="heart-loader">
+            <i class="fas fa-heart"></i>
+        </div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <p>LOADING LOVE...</p>
+        <p id="percent">0%</p>
+    </div>
+
+    <div id="main-content" class="hidden">
+        
+        <div class="animation-area">
+            <div class="bus-container">
+                <img src="Hình/xe.png" alt="Love Bus" class="bus-img">
+            </div>
+            <div class="road-line"></div>
+        </div>
+
+        <div class="card-container">
+            <h1 class="title">My Love</h1>
+            
+            <div class="slideshow">
+                <button class="nav-btn prev" onclick="changeSlide(-1)">&#10094;</button>
+                <div class="image-wrapper">
+                    <img src="https://placehold.co/300x200/ffb6c1/white?text=Anh+Iu+1" class="slide active">
+                    <img src="https://placehold.co/300x200/ffb6c1/white?text=Anh+Iu+2" class="slide">
+                    <img src="https://placehold.co/300x200/ffb6c1/white?text=Ky+Niem+3" class="slide">
+                </div>
+                <button class="nav-btn next" onclick="changeSlide(1)">&#10095;</button>
+            </div>
+
+            <div class="input-area">
+                <input type="text" placeholder="..." readonly value="Nguyễn Kim Huyền Rất Xinh Đẹp">
+                <button class="send-btn" onclick="openModal()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="envelope">
+                <div class="heart-seal"><i class="fas fa-heart"></i></div>
+                <h2>Gửi Anh Yêu!</h2>
+                <p>To: Anh <3</p>
+                <p class="message">Cảm ơn anh vì đã luôn bên em. Yêu anh nhiều lắm đồ đáng ghét ạ! Happy day!</p>
+                <div class="kiss-mark">💋</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // --- Xử lý Loading ---
+    let progress = 0;
+    const progressBar = document.getElementById('progress');
+    const percentText = document.getElementById('percent');
+    const loadingScreen = document.getElementById('loading-screen');
+    const mainContent = document.getElementById('main-content');
+
+    const loadInterval = setInterval(() => {
+        progress += Math.random() * 5; 
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(loadInterval);
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    if(mainContent) mainContent.classList.remove('hidden');
+                }, 500); 
+            }, 500); 
+        }
+        if(progressBar) progressBar.style.width = `${progress}%`;
+        if(percentText) percentText.innerText = `${Math.floor(progress)}%`;
+    }, 100);
+
+    // --- Xử lý Slideshow ---
+    let slideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    function showSlide(index) {
+        if (slides.length === 0) return;
+        if (index >= slides.length) slideIndex = 0;
+        if (index < 0) slideIndex = slides.length - 1;
+        slides.forEach(slide => slide.classList.remove('active'));
+        slides[slideIndex].classList.add('active');
+    }
+    function changeSlide(n) { slideIndex += n; showSlide(slideIndex); }
+
+    // --- Xử lý Modal ---
+    const modal = document.getElementById('modal');
+    function openModal() { if(modal) modal.classList.remove('hidden'); }
+    function closeModal() { if(modal) modal.classList.add('hidden'); }
+    window.onclick = function(event) { if (event.target == modal) closeModal(); }
+</script>
+</body>
+</html>
